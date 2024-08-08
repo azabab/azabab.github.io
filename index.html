@@ -156,18 +156,27 @@
   data-scroll-reveal
 >
   <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2024/08/09/STM32_HAL/"
+    >STM32_HAL</a> 
+</h2>
+ 
+
+      
+    </header>
      
     <div class="article-meta">
       <a href="/2024/08/09/STM32_HAL/" class="article-date">
-  <time datetime="2024-08-08T20:54:40.167Z" itemprop="datePublished">2024-08-09</time>
+  <time datetime="2024-08-08T21:02:32.000Z" itemprop="datePublished">2024-08-09</time>
 </a>    
     </div>
       
     <div class="article-entry" itemprop="articleBody">
        
-  <center/><big>蓝桥杯<big/><center/>
-
-<h2 id="LCD"><a href="#LCD" class="headerlink" title="LCD"></a>LCD</h2><p>在lcd.c中找到下面两个函数：<br>void LCD_WriteReg(u8 LCD_Reg, u16 LCD_RegValue)<br>void LCD_WriteRAM_Prepare(void)<br>void LCD_WriteRAM(u16 RGB_Code)<br>之后将三个函数首尾添加相同的两行代码：<br><img src="K:\323Study_Source\My_Note\HAL_STM32\5.png" style="zoom:80%;" /></p>
+  <h2 id="LCD"><a href="#LCD" class="headerlink" title="LCD"></a>LCD</h2><p>在lcd.c中找到下面两个函数：<br>void LCD_WriteReg(u8 LCD_Reg, u16 LCD_RegValue)<br>void LCD_WriteRAM_Prepare(void)<br>void LCD_WriteRAM(u16 RGB_Code)<br>之后将三个函数首尾添加相同的两行代码：<br><img src="K:\323Study_Source\My_Note\HAL_STM32\5.png" style="zoom:80%;" /></p>
 <h2 id="外部中断"><a href="#外部中断" class="headerlink" title="外部中断"></a>外部中断</h2><p>调用的是 <strong><del>HAL_GPIO_EXTI_Callback()</del></strong> 函数</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 函数功能: 按键外部中断回调函数</span></span><br><span class="line"><span class="comment">  * 输入参数: GPIO_Pin：中断引脚</span></span><br><span class="line"><span class="comment">  * 返 回 值: 无</span></span><br><span class="line"><span class="comment">  * 说    明: 无</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">HAL_GPIO_EXTI_Callback</span><span class="params">(<span class="type">uint16_t</span> GPIO_Pin)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span>(GPIO_Pin==KEY1_Pin)</span><br><span class="line">  &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">if</span>(HAL_GPIO_ReadPin(KEY1_GPIO_Port,KEY1_Pin)== <span class="number">0</span> )</span><br><span class="line">    &#123;</span><br><span class="line">        HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON,PWR_SLEEPENTRY_WFI);</span><br><span class="line">    &#125;</span><br><span class="line">    __HAL_GPIO_EXTI_CLEAR_IT(KEY1_Pin);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
